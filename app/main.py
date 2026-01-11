@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+from app.db.init_db import init_db
 from app.api import auth, notes, versions
 from app.db.session import engine
 from app.db.base import Base  
-from app.db.init_db import init_db
+
 
 
 Base.metadata.create_all(bind=engine)
