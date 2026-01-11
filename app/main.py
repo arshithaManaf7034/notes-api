@@ -3,13 +3,14 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api import auth, notes, versions
 from app.db.session import engine
-from app.db.base import Base   
+from app.db.base import Base  
+from app.db.init_db import __init__
 
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Notes API with Version History")
-
+__init__() 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
