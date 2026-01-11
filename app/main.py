@@ -29,3 +29,6 @@ app.include_router(versions.router, tags=["Versions"])
 @app.get("/")
 def health():
     return {"status": "ok"}
+@app.get("/debug")
+def debug():
+    return {"debug": "ok"}
