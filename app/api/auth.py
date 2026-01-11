@@ -1,5 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from fastapi import HTTPException
+from sqlalchemy.exc import IntegrityError
+
 
 from app.db.session import SessionLocal
 from app.models.user import User
@@ -18,18 +21,21 @@ def get_db():
 
 @router.post("/register", response_model=UserOut)
 def register(user: UserCreate, db: Session = Depends(get_db)):
-    existing = db.query(User).filter(User.email == user.email).first()
-    if existing:
+    try:
+        new_user = User(
+            email=user.email,
+            hashed_password=get_password_hash(user.password)
+        )
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+        return {"message": "User registered successfully"}
+    except IntegrityError:
+        db.rollback()
         raise HTTPException(status_code=400, detail="Email already registered")
-
-    new_user = User(
-        email=user.email,
-        hashed_password=hash_password(user.password)
-    )
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    return new_user
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/login")
 def login(user: UserCreate, db: Session = Depends(get_db)):
