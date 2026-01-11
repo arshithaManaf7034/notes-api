@@ -12,7 +12,7 @@ pwd_context = CryptContext(
 )
 
 
-def hash_password(password: str) -> str:
+def get_password_hash(password: str) -> str:
     # bcrypt max length is 72 bytes
     if len(password.encode("utf-8")) > 72:
         password = password.encode("utf-8")[:72].decode("utf-8", errors="ignore")
