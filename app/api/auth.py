@@ -31,7 +31,7 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
-        return {"message": "User registered successfully"}
+        return user
     except IntegrityError:
         db.rollback()
         raise HTTPException(status_code=400, detail="Email already registered")
