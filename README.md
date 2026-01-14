@@ -6,7 +6,7 @@ Built to demonstrate real-world backend–frontend integration, JWT authenticati
 
 🚀 Live Applications
 🌐 Frontend (Vercel)
-https://notes-frontend.vercel.app
+https://notes-frontend-t8qm.vercel.app/
 
 ⚙️ Backend API (Render)
 https://notes-api-f8qj.onrender.com
